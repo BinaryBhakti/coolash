@@ -20,9 +20,11 @@ import {
 const Header = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const location = useLocation();
+  // first path segment, so "/palette/abc" and "/visualizer/abc" match their base route
+  const base = '/' + (location.pathname.split('/')[1] || '');
   
   const getPageTitle = () => {
-    switch (location.pathname) {
+    switch (base) {
       case '/':
         return 'Coolash';
       case '/palette':
@@ -35,13 +37,19 @@ const Header = () => {
         return 'Image Color Picker';
       case '/contrast':
         return 'Contrast Checker';
+      case '/visualizer':
+        return 'Palette Visualizer';
+      case '/explore':
+        return 'Explore';
+      case '/assistant':
+        return 'Color Assistant';
       default:
         return 'Coolash';
     }
   };
 
   const getPageIcon = () => {
-    switch (location.pathname) {
+    switch (base) {
       case '/palette':
         return <Palette className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
       case '/gradient':
@@ -52,13 +60,19 @@ const Header = () => {
         return <Image className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
       case '/contrast':
         return <Contrast className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
+      case '/visualizer':
+        return <LayoutTemplate className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
+      case '/explore':
+        return <Compass className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
+      case '/assistant':
+        return <Sparkles className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
       default:
         return <Palette className="h-6 w-6 text-white group-hover:text-primary transition-colors" />;
     }
   };
 
   const getSaveButtonText = () => {
-    switch (location.pathname) {
+    switch (base) {
       case '/palette':
         return 'Save Palette';
       case '/gradient':
@@ -75,11 +89,11 @@ const Header = () => {
   };
 
   const shouldShowSaveButton = () => {
-    return ['/palette', '/gradient', '/color-picker', '/image-picker', '/contrast'].includes(location.pathname);
+    return ['/palette', '/gradient', '/color-picker', '/image-picker', '/contrast'].includes(base);
   };
 
   const getSaveIcon = () => {
-    switch (location.pathname) {
+    switch (base) {
       case '/palette':
       case '/gradient':
         return <Heart className="h-4 w-4" />;
@@ -93,7 +107,7 @@ const Header = () => {
   };
 
   const getCurrentPageHelpContent = () => {
-    switch (location.pathname) {
+    switch (base) {
       case '/palette':
         return (
           <>
@@ -178,7 +192,7 @@ const Header = () => {
           <h1 className="font-semibold text-lg tracking-tight group-hover:text-white/80 transition-colors">Coolash</h1>
         </Link>
         
-        {location.pathname !== '/' && (
+        {base !== '/' && (
           <>
             <ArrowRightLeft className="h-5 w-5 text-white/50" />
             <div className="flex items-center gap-2 group">
@@ -186,11 +200,14 @@ const Header = () => {
               <div>
                 <h1 className="font-bold text-xl transition-colors">{getPageTitle()}</h1>
                 <p className="text-xs text-white/70">
-                  {location.pathname === '/palette' && 'Create harmonious palettes'}
-                  {location.pathname === '/gradient' && 'Design stunning gradients'}
-                  {location.pathname === '/color-picker' && 'Select perfect colors'}
-                  {location.pathname === '/image-picker' && 'Extract from images'}
-                  {location.pathname === '/contrast' && 'Check accessibility'}
+                  {base === '/palette' && 'Create harmonious palettes'}
+                  {base === '/gradient' && 'Design stunning gradients'}
+                  {base === '/color-picker' && 'Select perfect colors'}
+                  {base === '/image-picker' && 'Extract from images'}
+                  {base === '/contrast' && 'Check accessibility'}
+                  {base === '/visualizer' && 'Preview on a mockup'}
+                  {base === '/explore' && 'Curated palettes'}
+                  {base === '/assistant' && 'Palettes from a vibe'}
                 </p>
               </div>
             </div>
