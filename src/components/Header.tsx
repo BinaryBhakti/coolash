@@ -24,7 +24,7 @@ const Header = () => {
   const getPageTitle = () => {
     switch (location.pathname) {
       case '/':
-        return 'Palette Swift';
+        return 'Coolash';
       case '/palette':
         return 'Palette Generator';
       case '/gradient':
@@ -36,10 +36,10 @@ const Header = () => {
       case '/contrast':
         return 'Contrast Checker';
       default:
-        return 'Palette Swift';
+        return 'Coolash';
     }
   };
-  
+
   const getPageIcon = () => {
     switch (location.pathname) {
       case '/palette':
@@ -171,14 +171,11 @@ const Header = () => {
   };
   
   return (
-    <header className="fixed top-0 left-0 w-full bg-black/50 backdrop-blur-md text-white p-4 flex justify-between items-center z-50">
+    <header className="fixed top-0 left-0 w-full bg-zinc-950/70 backdrop-blur-md text-white px-4 py-3 flex justify-between items-center z-50 border-b border-white/10">
       <div className="flex items-center gap-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <Palette className="h-6 w-6 text-white group-hover:text-primary transition-colors" />
-          <div>
-            <h1 className="font-bold text-xl group-hover:text-primary transition-colors">Palette Swift</h1>
-            <p className="text-xs text-white/70">Color Palette Generator</p>
-          </div>
+          <Palette className="h-5 w-5 text-white/80 group-hover:text-white transition-colors" />
+          <h1 className="font-semibold text-lg tracking-tight group-hover:text-white/80 transition-colors">Coolash</h1>
         </Link>
         
         {location.pathname !== '/' && (
@@ -254,7 +251,7 @@ const Header = () => {
             <DialogHeader>
               <DialogTitle className="text-xl font-bold">How to Use</DialogTitle>
               <DialogDescription>
-                Tools and features available in Palette Swift
+                Tools and features available in Coolash
               </DialogDescription>
             </DialogHeader>
             
