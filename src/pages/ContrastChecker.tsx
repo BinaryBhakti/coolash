@@ -5,6 +5,7 @@ import chroma from 'chroma-js';
 import { CopyIcon, CheckIcon } from '../components/Icons';
 import { toast } from 'sonner';
 import Header from '@/components/Header';
+import { CvdType, CVD_TYPES, simulate } from '@/utils/colorblind';
 
 interface ContrastResult {
   ratio: number;
@@ -26,6 +27,9 @@ export default function ContrastChecker() {
     AALarge: false,
   });
   const [copied, setCopied] = useState<boolean>(false);
+  const [cvd, setCvd] = useState<CvdType>('none');
+  const previewText = simulate(textColor, cvd);
+  const previewBg = simulate(bgColor, cvd);
 
   // Calculate contrast ratio and compliance whenever colors change
   useEffect(() => {
@@ -166,20 +170,32 @@ export default function ContrastChecker() {
 
               {/* Preview and Results */}
               <div className="space-y-6">
-                <h2 className="text-base font-semibold text-white">Preview &amp; Results</h2>
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-base font-semibold text-white">Preview &amp; Results</h2>
+                  <select
+                    value={cvd}
+                    onChange={(e) => setCvd(e.target.value as CvdType)}
+                    aria-label="Simulate color vision"
+                    className="rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white focus:border-white/30 focus:outline-none"
+                  >
+                    {CVD_TYPES.map((t) => (
+                      <option key={t.id} value={t.id} className="bg-zinc-900">{t.label}</option>
+                    ))}
+                  </select>
+                </div>
 
-                {/* Preview */}
+                {/* Preview (colors simulated for the selected vision type) */}
                 <div
                   className="flex flex-col items-center justify-center rounded-xl border border-white/10 p-6 h-48"
-                  style={{ backgroundColor: bgColor }}
+                  style={{ backgroundColor: previewBg }}
                 >
-                  <p className="text-2xl font-semibold mb-2" style={{ color: textColor }}>
+                  <p className="text-2xl font-semibold mb-2" style={{ color: previewText }}>
                     Preview Text
                   </p>
-                  <p className="text-base" style={{ color: textColor }}>
+                  <p className="text-base" style={{ color: previewText }}>
                     This is how your text will look
                   </p>
-                  <p className="text-sm mt-1" style={{ color: textColor }}>
+                  <p className="text-sm mt-1" style={{ color: previewText }}>
                     Check if it's readable across different text sizes
                   </p>
                 </div>
