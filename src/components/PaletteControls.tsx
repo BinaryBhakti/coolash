@@ -19,19 +19,6 @@ const PaletteControls = ({
   setActiveFormat,
 }: PaletteControlsProps) => {
   const isMobile = useIsMobile();
-  
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.code === 'Space') {
-      onGenerate();
-    }
-  };
-
-  React.useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onGenerate]);
 
   return (
     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-zinc-950/70 backdrop-blur-md border border-white/10 text-white rounded-full px-3 sm:px-6 py-3 flex items-center gap-2 sm:gap-4 z-10 max-w-[95vw] overflow-x-auto">

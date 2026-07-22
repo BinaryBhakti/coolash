@@ -1,13 +1,58 @@
+import chroma from 'chroma-js';
 
 // Generate a random hex color
 export const generateRandomColor = (): string => {
   return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 };
 
-// Generate an array of random colors
-export const generateRandomPalette = (count: number): string[] => {
-  return Array.from({ length: count }, () => generateRandomColor());
+// ponytail: heuristic "designer" generator — random base hue + a color-theory
+// scheme with pleasing saturation and a light→dark lightness spread, so palettes
+// look intentional instead of noise. Upgrade path: curated seed set / trained model.
+const SCHEMES = ['analogous', 'monochrome', 'complement', 'triad', 'spread'] as const;
+
+export const generateHarmoniousPalette = (count: number): string[] => {
+  const baseHue = Math.random() * 360;
+  const scheme = SCHEMES[Math.floor(Math.random() * SCHEMES.length)];
+  const baseSat = 0.45 + Math.random() * 0.35; // 0.45–0.80
+
+  const hueFor = (i: number): number => {
+    switch (scheme) {
+      case 'analogous': return baseHue + (i - (count - 1) / 2) * 25;
+      case 'monochrome': return baseHue;
+      case 'complement': return baseHue + (i % 2) * 180;
+      case 'triad': return baseHue + (i % 3) * 120;
+      default: return baseHue + (360 / count) * i; // spread
+    }
+  };
+
+  return Array.from({ length: count }, (_, i) => {
+    const h = ((hueFor(i) % 360) + 360) % 360;
+    const s = Math.min(1, Math.max(0.15, baseSat + (Math.random() - 0.5) * 0.1));
+    const l = Math.min(0.92, Math.max(0.1, 0.28 + (0.5 * (i + 0.5)) / count + (Math.random() - 0.5) * 0.08));
+    return chroma.hsl(h, s, l).hex();
+  });
 };
+
+// Generate an array of harmonious colors (all callers get designed palettes)
+export const generateRandomPalette = (count: number): string[] => {
+  return generateHarmoniousPalette(count);
+};
+
+// Encode / decode a palette in a URL slug: "#264653","#2a9d8f" -> "264653-2a9d8f"
+export const paletteToSlug = (colors: string[]): string =>
+  colors.map(c => c.replace('#', '').toLowerCase()).join('-');
+
+export const slugToPalette = (slug: string): string[] | null => {
+  const colors = slug.split('-').map(p => '#' + p);
+  if (colors.length >= 1 && colors.every(c => chroma.valid(c))) {
+    return colors.map(c => chroma(c).hex());
+  }
+  return null;
+};
+
+// Nine tints→shades of a color (light to dark), for the per-color shades strip
+export const getShades = (color: string): string[] =>
+  Array.from({ length: 9 }, (_, i) => chroma(color).set('hsl.l', (i + 1) / 10).hex());
 
 // Convert hex to RGB
 export const hexToRgb = (hex: string): string => {

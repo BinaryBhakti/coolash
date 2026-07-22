@@ -22,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/palette" element={<Index />} />
+          <Route path="/palette/:slug" element={<Index />} />
           <Route path="/gradient" element={<GradientGenerator />} />
           <Route path="/color-picker" element={<ColorPicker />} />
           <Route path="/image-picker" element={<ImagePicker />} />
