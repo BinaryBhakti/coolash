@@ -10,6 +10,9 @@ import Landing from "./pages/Landing";
 import ColorPicker from "./pages/ColorPicker";
 import ImagePicker from "./pages/ImagePicker";
 import ContrastChecker from "./pages/ContrastChecker";
+import Visualizer from "./pages/Visualizer";
+import Explore from "./pages/Explore";
+import Assistant from "./pages/Assistant";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +30,10 @@ const App = () => (
           <Route path="/color-picker" element={<ColorPicker />} />
           <Route path="/image-picker" element={<ImagePicker />} />
           <Route path="/contrast" element={<ContrastChecker />} />
+          <Route path="/visualizer" element={<Visualizer />} />
+          <Route path="/visualizer/:slug" element={<Visualizer />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/assistant" element={<Assistant />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

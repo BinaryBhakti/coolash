@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PaletteIcon, GradientIcon, ColorPickerIcon, ImagePickerIcon, ContrastIcon } from '../components/Icons';
+import { Compass, LayoutTemplate, Sparkles } from 'lucide-react';
 
 interface ToolCardProps {
   title: string;
@@ -71,6 +72,27 @@ export default function Landing() {
       path: "/contrast",
       icon: <ContrastIcon className="h-5 w-5 text-emerald-300" />,
       accent: "bg-emerald-500/15"
+    },
+    {
+      title: "Palette Visualizer",
+      description: "Preview any palette on a real UI mockup.",
+      path: "/visualizer",
+      icon: <LayoutTemplate className="h-5 w-5 text-indigo-300" />,
+      accent: "bg-indigo-500/15"
+    },
+    {
+      title: "Explore",
+      description: "Browse curated palettes and open them in one click.",
+      path: "/explore",
+      icon: <Compass className="h-5 w-5 text-cyan-300" />,
+      accent: "bg-cyan-500/15"
+    },
+    {
+      title: "Color Assistant",
+      description: "Describe a vibe and get a matching palette.",
+      path: "/assistant",
+      icon: <Sparkles className="h-5 w-5 text-fuchsia-300" />,
+      accent: "bg-fuchsia-500/15"
     }
   ];
 

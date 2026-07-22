@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Info, Palette, Layers, ArrowRightLeft, Pipette, Image, Contrast, Download } from 'lucide-react';
+import { Heart, Info, Palette, Layers, ArrowRightLeft, Pipette, Image, Contrast, Download, Compass, LayoutTemplate, Sparkles } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Dialog,
@@ -235,6 +235,24 @@ const Header = () => {
               <Link to="/contrast" className="flex items-center gap-2">
                 <Contrast className="h-4 w-4" />
                 <span>Contrast Checker</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/visualizer" className="flex items-center gap-2">
+                <LayoutTemplate className="h-4 w-4" />
+                <span>Palette Visualizer</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/explore" className="flex items-center gap-2">
+                <Compass className="h-4 w-4" />
+                <span>Explore</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/assistant" className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                <span>Color Assistant</span>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
