@@ -9,6 +9,7 @@ import { toast } from '@/components/ui/sonner';
 
 interface ColorSwatchProps {
   color: string;
+  displayColor?: string; // simulated (colorblind) color used for the visible fill
   locked: boolean;
   activeFormat: ColorFormat;
   canRemove: boolean;
@@ -37,11 +38,12 @@ const ToolBtn = React.forwardRef<HTMLButtonElement, {
 ToolBtn.displayName = 'ToolBtn';
 
 const ColorSwatch = ({
-  color, locked, activeFormat, canRemove,
+  color, displayColor, locked, activeFormat, canRemove,
   onToggleLock, onChange, onRemove, onDragStart, onDrop,
 }: ColorSwatchProps) => {
   const [copied, setCopied] = useState(false);
-  const contrastColor = getContrastColor(color);
+  const fill = displayColor ?? color;
+  const contrastColor = getContrastColor(fill);
   const display = activeFormat === ColorFormat.HEX
     ? getColorInFormat(color, activeFormat).toUpperCase()
     : getColorInFormat(color, activeFormat);
@@ -64,7 +66,7 @@ const ColorSwatch = ({
   return (
     <div
       className="group relative flex h-full w-full flex-col items-center justify-center transition-colors duration-500"
-      style={{ backgroundColor: color, color: contrastColor }}
+      style={{ backgroundColor: fill, color: contrastColor }}
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
     >
